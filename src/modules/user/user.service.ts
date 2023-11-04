@@ -4,7 +4,6 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 import { UserEntity } from '../../database/entities/user.entity';
 import { UserCreateRequestDto } from './dto/request/user.create-request.dto';
@@ -14,10 +13,7 @@ import { IList } from '../../common/interface/list.interface';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly usersRepository: UserRepository,
-  ) {}
+  constructor(private readonly usersRepository: UserRepository) {}
 
   public async getAll(
     query: UserListQueryRequestDto,

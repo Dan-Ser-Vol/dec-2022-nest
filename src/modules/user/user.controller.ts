@@ -27,7 +27,7 @@ export class UserController {
 
   @ApiOperation({ summary: 'Get all users' })
   @Get()
-  async getAll(
+  async getAllUsers(
     @Query() query: UserListQueryRequestDto,
   ): Promise<UserListResponseDto> {
     const result = await this.userService.getAll(query);

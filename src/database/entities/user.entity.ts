@@ -3,7 +3,7 @@ import { CreateUpdateModel } from './common/create.update.entity';
 
 @Entity()
 export class UserEntity extends CreateUpdateModel {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ type: 'varchar', nullable: false })

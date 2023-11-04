@@ -6,9 +6,9 @@ import { PaginationQueryDto } from '../../../../common/dto/pagination.query.dto'
 export class UserListQueryRequestDto extends PaginationQueryDto {
   @IsEnum(OrderEnum)
   @IsOptional()
-  order?: string = OrderEnum.ASC;
+  order?: OrderEnum = OrderEnum.ASC;
 
   @IsEnum(UserListOrderFieldEnum)
   @IsOptional()
-  orderBy?: string = UserListOrderFieldEnum.createdAt;
+  orderBy?: UserListOrderFieldEnum = UserListOrderFieldEnum.createdAt;
 }
