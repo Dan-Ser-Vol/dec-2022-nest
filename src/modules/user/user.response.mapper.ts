@@ -4,7 +4,7 @@ import {
   UserListResponseDto,
 } from './dto/response/user.list-response.dto';
 import { IList } from '../../common/interface/list.interface';
-import { UserListQueryRequestDto } from './dto/request/user.-list-query.request.dto';
+import { UserListQueryRequestDto } from './dto/request/user-list-query.request.dto';
 
 export class UserResponseMapper {
   static toListDto(
@@ -22,7 +22,6 @@ export class UserResponseMapper {
     return {
       id: data.id,
       username: data.username,
-      age: data.age,
       email: data.email,
       createdAt: data.createdAt,
     };
@@ -32,7 +31,6 @@ export class UserResponseMapper {
     return {
       id: data.id,
       username: data.username,
-      age: data.age,
       email: data.email,
       createdAt: data.createdAt,
     };

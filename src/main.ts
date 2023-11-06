@@ -2,9 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './modules/app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as process from 'process';
+import { PostgresqlConfigService } from './config/database/configuration.service';
 
 const environment = process.env.NODE_ENV ?? '';
 
@@ -14,6 +15,7 @@ async function start() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
+  const appConfig: PostgresqlConfigService = app.get(PostgresqlConfigService);
   const config = new DocumentBuilder()
     .setTitle('Example')
     .setDescription(' API description for nest course')
@@ -23,6 +25,8 @@ async function start() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(appConfig.app_port, () =>
+    Logger.log('http://localhost:3000/api', 'Server is working'),
+  );
 }
 start();

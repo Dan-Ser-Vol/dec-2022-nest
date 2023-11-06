@@ -10,10 +10,6 @@ export class UserUpdateResponseDto {
   @IsString()
   username: string;
 
-  @ApiProperty()
-  @IsNumber()
-  age: number;
-
   @ApiProperty({ example: 'example@gmail.com' })
   @IsString()
   @IsEmail()

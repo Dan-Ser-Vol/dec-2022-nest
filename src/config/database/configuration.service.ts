@@ -13,6 +13,9 @@ export class PostgresqlConfigService {
   get host(): string {
     return this.postgresqlConfiguration.host;
   }
+  get app_port(): number {
+    return Number(this.postgresqlConfiguration.app_port);
+  }
 
   get port(): number {
     return Number(this.postgresqlConfiguration.port);

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsEmail, IsNumber, IsString } from 'class-validator';
-import { UserListQueryRequestDto } from '../request/user.-list-query.request.dto';
+import { UserListQueryRequestDto } from '../request/user-list-query.request.dto';
 
 export class UserListResponseDto extends UserListQueryRequestDto {
   data: UserListItemResponseDto[];
@@ -15,10 +15,6 @@ export class UserListItemResponseDto {
   @ApiProperty()
   @IsString()
   username: string;
-
-  @ApiProperty()
-  @IsNumber()
-  age: number;
 
   @ApiProperty({ example: 'example@gmail.com' })
   @IsString()

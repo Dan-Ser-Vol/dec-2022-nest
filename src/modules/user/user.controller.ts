@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
@@ -17,8 +18,9 @@ import { UserCreateRequestDto } from './dto/request/user.create-request.dto';
 import { UserCreateResponseDto } from './dto/response/user.create-response.dto';
 import { UserUpdateRequestDto } from './dto/request/user.update-request.dto';
 import { UserUpdateResponseDto } from './dto/response/user.update-response.dto';
-import { UserListQueryRequestDto } from './dto/request/user.-list-query.request.dto';
+import { UserListQueryRequestDto } from './dto/request/user-list-query.request.dto';
 import { UserListResponseDto } from './dto/response/user.list-response.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Users')
 @Controller('users')
@@ -26,6 +28,7 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @ApiOperation({ summary: 'Get all users' })
+  @UseGuards(AuthGuard())
   @Get()
   async getAllUsers(
     @Query() query: UserListQueryRequestDto,

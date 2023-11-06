@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEmail, IsNumber, IsString } from 'class-validator';
+import { IsEmail, IsNumber, IsString } from 'class-validator';
 
-export class UserCreateResponseDto {
+export class UserLoginResponseDto {
   @ApiProperty()
   @IsNumber()
   id: number;
@@ -14,8 +14,4 @@ export class UserCreateResponseDto {
   @IsString()
   @IsEmail()
   email: string;
-
-  @ApiProperty()
-  @IsDate()
-  createdAt: Date;
 }

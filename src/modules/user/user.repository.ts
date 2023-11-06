@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from '../../database/entities/user.entity';
-import { UserListQueryRequestDto } from './dto/request/user.-list-query.request.dto';
+import { UserListQueryRequestDto } from './dto/request/user-list-query.request.dto';
 import { IList } from '../../common/interface/list.interface';
 import { UserListOrderFieldEnum } from './enum/user-list-order-field.enum';
 
@@ -23,6 +23,12 @@ export class UserRepository extends Repository<UserEntity> {
       case UserListOrderFieldEnum.age:
         queryBuilder.orderBy('user.age', query.order);
         break;
+    }
+
+    if (query.search) {
+      queryBuilder.andWhere('LOWER(user.email) LIKE :search', {
+        search: `%${query.search}%`,
+      });
     }
 
     queryBuilder.limit(query.limit);
