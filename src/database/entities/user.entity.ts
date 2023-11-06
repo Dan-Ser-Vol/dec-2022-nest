@@ -1,8 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CreateUpdateModel } from './common/create.update.entity';
 import { IsString, Matches } from 'class-validator';
+import { CarEntity } from './car.entity';
 
-@Entity()
+@Entity('user')
 export class UserEntity extends CreateUpdateModel {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -22,4 +23,7 @@ export class UserEntity extends CreateUpdateModel {
       'Пароль повинен містити принаймні одну цифру, одну маленьку та велику літеру, один спецсимвол і бути не менше 8 символів у довжину.',
   })
   password: string;
+
+  @OneToMany(() => CarEntity, (entity) => entity.user)
+  cars: CarEntity[];
 }

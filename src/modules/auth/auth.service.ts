@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRedisClient, RedisClient } from '@webeleon/nestjs-redis';
 import { UserLoginDto } from './dto/request/user.login-request.dto';
-import { IToken } from "../../common/interface/token.interface";
+import { IToken } from '../../common/interface/token.interface';
 
 @Injectable()
 export class AuthService {

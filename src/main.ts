@@ -6,6 +6,7 @@ import { ValidationPipe, Logger } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as process from 'process';
 import { PostgresqlConfigService } from './config/database/configuration.service';
+import { SwaggerHelper } from "./common/helper/swagger.helper";
 
 const environment = process.env.NODE_ENV ?? '';
 
@@ -20,9 +21,9 @@ async function start() {
     .setTitle('Example')
     .setDescription(' API description for nest course')
     .setVersion('1.0')
-    .addTag('my practice course')
     .build();
   const document = SwaggerModule.createDocument(app, config);
+  SwaggerHelper.setDefaultResponses(document);
   SwaggerModule.setup('api', app, document);
 
   await app.listen(appConfig.app_port, () =>

@@ -11,7 +11,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UserService } from './user.service';
 import { UserResponseMapper } from './user.response.mapper';
 import { UserCreateRequestDto } from './dto/request/user.create-request.dto';
@@ -28,6 +28,7 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @ApiOperation({ summary: 'Get all users' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Get()
   async getAllUsers(
