@@ -3,7 +3,7 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
+  HttpException,
   HttpStatus,
   Param,
   Post,
@@ -11,7 +11,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserResponseMapper } from './user.response.mapper';
 import { UserCreateRequestDto } from './dto/request/user.create-request.dto';
@@ -21,6 +21,9 @@ import { UserUpdateResponseDto } from './dto/response/user.update-response.dto';
 import { UserListQueryRequestDto } from './dto/request/user-list-query.request.dto';
 import { UserListResponseDto } from './dto/response/user.list-response.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { RolesDecorator } from '../../common/decorators/role.decorator';
+import { UserRolesEnum } from './enum/user-roles.enum';
+import { RoleGuard } from '../../common/guards/role.guard';
 
 @ApiTags('Users')
 @Controller('users')
@@ -29,22 +32,31 @@ export class UserController {
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiBearerAuth()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RoleGuard)
+  @RolesDecorator(UserRolesEnum.ADMIN)
   @Get()
   async getAllUsers(
     @Query() query: UserListQueryRequestDto,
   ): Promise<UserListResponseDto> {
-    const result = await this.userService.getAll(query);
-    return UserResponseMapper.toListDto(result, query);
+    try {
+      const result = await this.userService.getAll(query);
+      return UserResponseMapper.toListDto(result, query);
+    } catch (err) {
+      throw new HttpException(err.massege, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @ApiOperation({ summary: 'Get user by id' })
   @Get(':userId')
   async getById(
-    @Param('userId') userId: number,
+    @Param('userId') userId: string,
   ): Promise<UserCreateResponseDto> {
-    const result = await this.userService.getById(userId);
-    return UserResponseMapper.toDetailsDto(result);
+    try {
+      const result = await this.userService.getById(userId);
+      return UserResponseMapper.toDetailsDto(result);
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.NOT_FOUND);
+    }
   }
 
   @ApiOperation({ summary: 'Create new user' })
@@ -56,27 +68,31 @@ export class UserController {
       const result = await this.userService.createUser(dto);
       return UserResponseMapper.toDetailsDto(result);
     } catch (err) {
-      console.log(err);
+      throw new HttpException(err.message, HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
 
   @ApiOperation({ summary: 'update user by id' })
   @Put('update/:userId')
   async updateUser(
-    @Param('userId') userId: number,
+    @Param('userId') userId: string,
     @Body() data: UserUpdateRequestDto,
   ): Promise<UserUpdateResponseDto> {
-    const result = await this.userService.updateUser(userId, data);
-    return UserResponseMapper.toDetailsDto(result);
+    try {
+      const result = await this.userService.updateUser(userId, data);
+      return UserResponseMapper.toDetailsDto(result);
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.NOT_FOUND);
+    }
   }
-  @HttpCode(HttpStatus.NO_CONTENT)
+
   @ApiOperation({ summary: 'Delete user by id' })
   @Delete('delete/:userId')
-  async deleteUser(@Param('userId') userId: number): Promise<void> {
+  async deleteUser(@Param('userId') userId: string): Promise<void> {
     try {
       await this.userService.deleteUser(userId);
     } catch (err) {
-      console.log(err);
+      throw new HttpException(err.message, HttpStatus.NOT_FOUND);
     }
   }
 }

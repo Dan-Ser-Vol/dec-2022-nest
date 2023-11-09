@@ -7,7 +7,7 @@ import { UserEntity } from './user.entity';
 @Entity('car')
 export class CarEntity extends CreateUpdateModel {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar' })
   @IsString()

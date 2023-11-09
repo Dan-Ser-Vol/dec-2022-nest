@@ -3,7 +3,7 @@ import { ProducerEnum } from '../../enum/producer.enum';
 
 export class CarDetailsResponseDto {
   @IsNumber()
-  id: number;
+  id: string;
 
   @IsString()
   model: string;

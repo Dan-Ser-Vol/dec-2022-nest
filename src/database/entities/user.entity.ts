@@ -1,16 +1,21 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CreateUpdateModel } from './common/create.update.entity';
-import { IsString, Matches } from 'class-validator';
+import { IsString } from 'class-validator';
 import { CarEntity } from './car.entity';
+import { UserRolesEnum } from '../../modules/user/enum/user-roles.enum';
 
 @Entity('user')
 export class UserEntity extends CreateUpdateModel {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', nullable: false })
   @IsString()
   username: string;
+
+  @Column({ type: 'enum', enum: UserRolesEnum, default: UserRolesEnum.BUYER })
+  @IsString()
+  role: UserRolesEnum;
 
   @Column({ type: 'varchar', nullable: false, unique: true })
   @IsString()
@@ -18,10 +23,6 @@ export class UserEntity extends CreateUpdateModel {
 
   @Column({ type: 'varchar', nullable: false })
   @IsString()
-  @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/, {
-    message:
-      'Пароль повинен містити принаймні одну цифру, одну маленьку та велику літеру, один спецсимвол і бути не менше 8 символів у довжину.',
-  })
   password: string;
 
   @OneToMany(() => CarEntity, (entity) => entity.user)

@@ -1,22 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { PickType } from '@nestjs/swagger';
+import { UserBaseRequestDto } from './user.base-request.dto';
 
-export class UserCreateRequestDto {
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  username: string;
-
-  @Transform(({ value }) => value.trim().toLowerCase())
-  @ApiProperty({ example: 'example@gmail.com' })
-  @IsNotEmpty()
-  @IsString()
-  @IsEmail()
-  email: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  password: string;
-}
+export class UserCreateRequestDto extends PickType(UserBaseRequestDto, [
+  'username',
+  'role',
+  'email',
+  'password',
+]) {}

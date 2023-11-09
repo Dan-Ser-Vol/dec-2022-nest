@@ -24,8 +24,8 @@ export class BearerStrategy extends PassportStrategy(Strategy, 'bearer') {
         throw new UnauthorizedException();
       }
       await this.jwtService.verifyAsync(token);
-      const decodeToken = this.jwtService.decode(token);
-      user = await this.authService.validateUser(decodeToken);
+      const tokenPayload = this.jwtService.decode(token);
+      user = await this.authService.validateUser(tokenPayload);
     } catch (err) {
       Logger.error(err);
       throw new UnauthorizedException();

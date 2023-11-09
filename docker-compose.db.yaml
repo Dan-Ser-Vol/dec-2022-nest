@@ -4,7 +4,7 @@ services:
   dec-2022-postgres:
     image: postgis/postgis
     ports:
-      - '${POSTGRES_EXTERNAL_PORT:-5432}:5432'
+      - '5431:5432'
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: user

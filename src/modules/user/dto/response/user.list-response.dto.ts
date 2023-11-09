@@ -10,7 +10,7 @@ export class UserListResponseDto extends UserListQueryRequestDto {
 export class UserListItemResponseDto {
   @ApiProperty()
   @IsNumber()
-  id: number;
+  id: string;
 
   @ApiProperty()
   @IsString()

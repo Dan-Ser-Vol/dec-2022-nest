@@ -2,11 +2,11 @@ import { CarDetailsResponseDto } from './dto/response/car-details-response.dto';
 import { CarEntity } from '../../database/entities/car.entity';
 
 export class CarResponseMapper {
-  static toListDto() {
-    return;
+  static toDetailsListDto(data: CarEntity[]): CarDetailsResponseDto[] {
+    return data.map(this.toDetailsDto);
   }
 
-  static toListItemDto(data) {
+  static toListItemDto() {
     return;
   }
 

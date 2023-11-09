@@ -4,7 +4,7 @@ import { IsEmail, IsNumber, IsString } from 'class-validator';
 export class UserUpdateResponseDto {
   @ApiProperty()
   @IsNumber()
-  id: number;
+  id: string;
 
   @ApiProperty()
   @IsString()
